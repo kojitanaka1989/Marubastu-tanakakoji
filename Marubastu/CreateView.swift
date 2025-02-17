@@ -92,6 +92,7 @@ struct CreateView: View {
 
             
         }
+      
     }
     // 問題追加(保存)の関数
     func addQuiz(question: String, answer: String) {

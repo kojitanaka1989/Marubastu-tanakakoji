@@ -34,13 +34,11 @@ struct ContentView: View {
         }
     }//削除や並び替え後に UserDefaults に保存
     
-    
-    
-    init(){
-        if let decodedQuizzes = try? JSONDecoder().decode([Quiz].self, from: quizzesData){
-           _quizzesArray = State(initialValue: decodedQuizzes)
-        }
-    }
+    //エラー原因?    init(){
+    //        if let decodedQuizzes = try? JSONDecoder().decode([Quiz].self, from: quizzesData){
+    //           _quizzesArray = State(initialValue: decodedQuizzes)
+    //        }
+    //    }
     
     var body: some View {
         GeometryReader{ geometry in
