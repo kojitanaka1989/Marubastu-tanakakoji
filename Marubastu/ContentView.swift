@@ -38,7 +38,7 @@ struct ContentView: View {
     
     init(){
         if let decodedQuizzes = try? JSONDecoder().decode([Quiz].self, from: quizzesData){
-            _quizzesArray = State(initialValue: decodedQuizzes)
+           _quizzesArray = State(initialValue: decodedQuizzes)
         }
     }
     
@@ -87,7 +87,7 @@ struct ContentView: View {
                         
                         
                     }
-
+                    
                     
                     
                 }
@@ -109,6 +109,12 @@ struct ContentView: View {
                                 .font(.title)
                         }
                     }
+                }
+                .onAppear {
+                    if let decodedQuizzes = try? JSONDecoder().decode([Quiz].self, from: quizzesData) {
+                        quizzesArray = decodedQuizzes
+                    }
+                    currentQuestionsNum = 0 //超えるときは0に戻す
                 }
             }
             

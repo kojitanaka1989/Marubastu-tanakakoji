@@ -85,12 +85,11 @@ struct CreateView: View {
                 }
             }
             .toolbar {
-                EditButton() // 右上に編集ボタンを追加
-                    .foregroundStyle(.red)
-                    .padding()
-                
-                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    EditButton() // 削除ボタン
+                }
             }
+
             
         }
     }
