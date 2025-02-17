@@ -50,10 +50,39 @@ struct CreateView: View {
             } label: {
                 Text("全削除")
             }
+            List {
+                ForEach(quizzesArray) { quiz in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("問題:")  // 「問題:」のラベル
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            Text(quiz.question)  // 問題文
+                                .font(.headline)
+                                .padding(.bottom, 5)
+                        }
+                        
+                        Spacer() // 左右のスペースを開ける
+                        
+                        VStack(alignment: .trailing) {
+                            Text("解答:")  // 「解答:」のラベル
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            Text(quiz.answer ? "◯" : "Ｘ")  // ◯ or X
+                                .font(.headline)
+                                .foregroundColor(quiz.answer ? .green : .red)  // ◯は緑、Xは赤
+                        }
+                    }
+                    .padding()
+                }
+            }
             .foregroundStyle(.red)
             .padding()
             
             
+        }
+        .toolbar {
+            EditButton() // 右上に編集ボタンを追加
         }
     }
     // 問題追加(保存)の関数

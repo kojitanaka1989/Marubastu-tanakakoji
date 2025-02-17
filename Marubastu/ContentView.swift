@@ -87,45 +87,6 @@ struct ContentView: View {
                         
                         
                     }
-                    
-                    List {
-                        ForEach(quizzesArray) { quiz in
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("問題:")  // 「問題:」を追加
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                    Text(quiz.question)  // 問題文を表示
-                                        .font(.headline)
-                                        .padding(.bottom, 5)
-                                }
-                                
-                                Spacer() // 問題と解答の間にスペースを追加
-                                
-                                VStack(alignment: .trailing) {
-                                    Text("解答:")  // 「解答:」のラベルを追加
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                    Text(quiz.answer ? "◯" : "Ｘ")  // 解答を表示
-                                        .font(.headline)
-                                        .foregroundColor(quiz.answer ? .green : .red)  // ○と×で色分けを行う
-                                    
-                                }
-                            }
-                            .padding()
-                        }
-                        .onMove { indices, newOffset in
-                            quizzesArray.move(fromOffsets: indices, toOffset: newOffset)
-                            updateUserDefaults()//並び変えたら保存
-                        }
-                        .onDelete { indexSet in
-                            quizzesArray.remove(atOffsets: indexSet)//選択した問題を削除
-                            updateUserDefaults()//削除後にデータを保存
-                        }
-                    }
-                    .toolbar {
-                        EditButton() // 右上に編集ボタンを追加
-                    }
 
                     
                     
