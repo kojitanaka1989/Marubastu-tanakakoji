@@ -28,6 +28,13 @@ struct ContentView: View {
     @State var showingAlert = false //アラートの表示・非表示を制御
     @State var alertTitle = "" //”正解"か"不正解"の文字を入れるための変数
     
+    func updateUserDefaults() {
+        if let encoded = try? JSONEncoder().encode(quizzesArray) {
+            quizzesData = encoded
+        }
+    }//削除や並び替え後に UserDefaults に保存
+    
+    
     
     init(){
         if let decodedQuizzes = try? JSONDecoder().decode([Quiz].self, from: quizzesData){
@@ -39,6 +46,9 @@ struct ContentView: View {
         GeometryReader{ geometry in
             NavigationStack{
                 VStack {
+                    
+                    
+                    
                     Text(showQestion())
                         .padding()   // 余白を外側に追加
                         .frame(width: geometry.size.width * 0.85, alignment: .leading) // 横幅を250、左寄せに
@@ -77,6 +87,48 @@ struct ContentView: View {
                         
                         
                     }
+                    
+                    List {
+                        ForEach(quizzesArray) { quiz in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("問題:")  // 「問題:」を追加
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    Text(quiz.question)  // 問題文を表示
+                                        .font(.headline)
+                                        .padding(.bottom, 5)
+                                }
+                                
+                                Spacer() // 問題と解答の間にスペースを追加
+                                
+                                VStack(alignment: .trailing) {
+                                    Text("解答:")  // 「解答:」のラベルを追加
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    Text(quiz.answer ? "◯" : "Ｘ")  // 解答を表示
+                                        .font(.headline)
+                                        .foregroundColor(quiz.answer ? .green : .red)  // ○と×で色分けを行う
+                                    
+                                }
+                            }
+                            .padding()
+                        }
+                        .onMove { indices, newOffset in
+                            quizzesArray.move(fromOffsets: indices, toOffset: newOffset)
+                            updateUserDefaults()//並び変えたら保存
+                        }
+                        .onDelete { indexSet in
+                            quizzesArray.remove(atOffsets: indexSet)//選択した問題を削除
+                            updateUserDefaults()//削除後にデータを保存
+                        }
+                    }
+                    .toolbar {
+                        EditButton() // 右上に編集ボタンを追加
+                    }
+
+                    
+                    
                 }
                 .padding()
                 .navigationTitle("マルバツクイズ")//ナビゲーションバーにタイトル設定
