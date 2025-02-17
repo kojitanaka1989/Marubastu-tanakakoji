@@ -75,14 +75,23 @@ struct CreateView: View {
                     }
                     .padding()
                 }
+                .onMove { indices, newOffset in
+                    quizzesArray.move(fromOffsets: indices, toOffset: newOffset)
+                    updateUserDefaults() // データを保存
+                }
+                .onDelete { indexSet in
+                    quizzesArray.remove(atOffsets: indexSet) // スワイプで削除
+                    updateUserDefaults() // データを保存
+                }
             }
-            .foregroundStyle(.red)
-            .padding()
+            .toolbar {
+                EditButton() // 右上に編集ボタンを追加
+                    .foregroundStyle(.red)
+                    .padding()
+                
+                
+            }
             
-            
-        }
-        .toolbar {
-            EditButton() // 右上に編集ボタンを追加
         }
     }
     // 問題追加(保存)の関数
