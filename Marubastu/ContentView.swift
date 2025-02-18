@@ -100,7 +100,7 @@ struct ContentView: View {
                     //配置する場所を画面最上部のバーの右端に設定
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink{
-                            CreateView(quizzesArray: $quizzesArray)//遷移先の画面
+                            CreateView(quizzesArray: $quizzesArray,currentQuestionNum: $currentQuestionsNum)//遷移先の画面
                                 .navigationTitle("問題を作ろう")
                         }label:{
                             Image(systemName: "plus")

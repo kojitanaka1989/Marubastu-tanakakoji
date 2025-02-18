@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateView: View {
     @Binding var quizzesArray:[Quiz]//回答画面で読み込んだ問題を受け取る
+    @Binding var currentQuestionNum: Int // クイズ番号を共有
     @State private var questionText = ""//テキストフィールドの文字を受け取る
     @State private var selectedAnswer = "O"//ピッカーで選ばれた解答を受け取る
     let answers = ["O", "X"]//ピッカーの選択肢の一覧
@@ -47,6 +48,7 @@ struct CreateView: View {
             Button {
                 quizzesArray.removeAll() // 配列を空に
                 UserDefaults.standard.removeObject(forKey: "quiz") // 保存されているものを削除
+                currentQuestionNum = 0 // 消去した際に最初の問題に戻す
             } label: {
                 Text("全削除")
             }
@@ -80,12 +82,14 @@ struct CreateView: View {
                     if let encoded = try? JSONEncoder().encode(quizzesArray) {
                         
                         UserDefaults.standard.set(encoded, forKey: "quiz") // データを保存
+                        currentQuestionNum = 0 // 移動したので最初の問題に戻す
                     }
                 }
                 .onDelete { indexSet in
                     quizzesArray.remove(atOffsets: indexSet) // スワイプで削除
                     if let encoded = try? JSONEncoder().encode(quizzesArray) {
                         UserDefaults.standard.set(encoded, forKey: "quiz")
+                        currentQuestionNum = 0 // クイズを消去したので最初の問題に戻す
                     } // データを保存
                 }
             }
