@@ -77,11 +77,16 @@ struct CreateView: View {
                 }
                 .onMove { indices, newOffset in
                     quizzesArray.move(fromOffsets: indices, toOffset: newOffset)
-                    updateUserDefaults() // データを保存
+                    if let encoded = try? JSONEncoder().encode(quizzesArray) {
+                        
+                        UserDefaults.standard.set(encoded, forKey: "quiz") // データを保存
+                    }
                 }
                 .onDelete { indexSet in
                     quizzesArray.remove(atOffsets: indexSet) // スワイプで削除
-                    updateUserDefaults() // データを保存
+                    if let encoded = try? JSONEncoder().encode(quizzesArray) {
+                        UserDefaults.standard.set(encoded, forKey: "quiz")
+                    } // データを保存
                 }
             }
             .toolbar {
@@ -89,10 +94,10 @@ struct CreateView: View {
                     EditButton() // 削除ボタン
                 }
             }
-
+            
             
         }
-      
+        
     }
     // 問題追加(保存)の関数
     func addQuiz(question: String, answer: String) {
